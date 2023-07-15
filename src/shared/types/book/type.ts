@@ -7,4 +7,5 @@ export interface IBook {
   image?: string;
   addedBy: string;
   wishedBy?: string[] | null;
+  readList?: string[] | null;
 }

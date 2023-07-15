@@ -1,37 +1,38 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useGetBooksQuery } from "../app/redux/features/book/bookApi";
-import { IBook } from "../shared/types/book/type";
 import { useAppSelector } from "../app/redux/hooks/hooks";
-import { RootState } from "../shared/types/global/types";
+import { IBook } from "../shared/types/book/type";
 
-interface DisplayProductProps {
-  limit?: number;
-}
+export default function WishList() {
+  const [wishedBook, setWishedBook] = useState([]);
+  const { data: books } = useGetBooksQuery(undefined);
+  const { phoneNumber } = useAppSelector((state) => state.auth);
 
-function DisplayProduct({ limit }: DisplayProductProps) {
-  const location = useLocation()
-  const {token} = useAppSelector((state:RootState)=>state.auth)
+  useEffect(() => {
+    if (books?.data && phoneNumber) {
+      const wishedBooks = books.data.filter((book:IBook) =>
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        book.wishedBy?.includes(phoneNumber!)
+      );
+      setWishedBook(wishedBooks);
+    }
+  }, [books, phoneNumber, setWishedBook]);
 
-  const { data: books } = useGetBooksQuery(limit);
-  
   return (
     <div className="py-12 px-6 2xl:px-6 container">
       <div className="order-2 xl:-order-1">
         <div className="flex items-center justify-between mb-12">
-          <h4 className="mt-2 text-xl font-bold">Book List</h4>
-          <div className="flex items-center space-x-4">
-           {(location.pathname.includes('all-books') && !!token) && <button  className={`filter-btn active-filter`}>
-           <Link to='/add-book'>
-              Add Book
-            </Link>
-           </button>}
-          </div>
+          <h4 className="mt-2 text-xl font-bold">Wished Books List</h4>
         </div>
-        {books?.data?.length ? (
+        {wishedBook?.length ? (
           <div className="space-y-6 md:space-y-0 md:grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {books?.data?.map((book:IBook) => (
-              <Link to={`/get-single-book/${book._id}`} className="book-card" key={book._id}>
+            {wishedBook?.map((book: IBook) => (
+              <Link
+                to={`/get-single-book/${book._id}`}
+                className="book-card"
+                key={book._id}
+              >
                 <img
                   className="h-[240px] w-[170px] object-cover"
                   src={book.image}
@@ -39,8 +40,7 @@ function DisplayProduct({ limit }: DisplayProductProps) {
                 />
                 <div className="flex-1 h-full pr-2 pt-2 flex flex-col">
                   <div className="flex items-center justify-between">
-                    <div>
-                    </div>
+                    <div></div>
                   </div>
                   <div className="space-y-2 mt-4 h-full">
                     <h4 className="book-name">{book.title}</h4>
@@ -57,5 +57,3 @@ function DisplayProduct({ limit }: DisplayProductProps) {
     </div>
   );
 }
-
-export default DisplayProduct;

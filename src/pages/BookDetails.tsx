@@ -16,6 +16,7 @@ import { RootState } from "../shared/types/global/types";
 export default function BookDetails() {
   const [book, setBook] = useState<IBook | null>(null);
   const [wished, setWished] = useState(false);
+  const [readList, setReadList] = useState(false);
 
   const { id } = useParams();
   const { data } = useGetBookQuery(id, {
@@ -50,6 +51,20 @@ export default function BookDetails() {
   }, [book, phoneNumber,isWishListSuccess]);
 
   useEffect(() => {
+    if (book && phoneNumber) {
+      const readList = book?.readList;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const isListed = readList?.includes(phoneNumber!);
+      if (isListed) {
+        setReadList(true);
+      }
+      else{
+        setReadList(false)
+      }
+    }
+  }, [book, phoneNumber,isReadListSuccess]);
+
+  useEffect(() => {
     if (isWishListSuccess) {
       if (wished) {
         toast.success("Added in wished list", { id: "wishList" });
@@ -58,6 +73,16 @@ export default function BookDetails() {
       }
     }
   }, [isWishListSuccess, wished]);
+
+  useEffect(() => {
+    if (isReadListSuccess) {
+      if (readList) {
+        toast.success("Added in reading list", { id: "readList" });
+      } else {
+        toast.success("Remove from reading list", { id: "readList" });
+      }
+    }
+  }, [isReadListSuccess, readList]);
 
   const [deleteBook, { isSuccess }] = useDeleteBookMutation();
   const navigate = useNavigate();
@@ -81,9 +106,9 @@ export default function BookDetails() {
           <div className="flex items-center flex-row-reverse w-full justify-between">
           <div className="flex items-center justify-between">
             {phoneNumber == book?.addedBy && (
-              <div className="text-gray-500 space-x-2">
+              <div className="text-gray-500 space-x-5 ">
                 <Link to={`/edit-book/${book?._id}`}>
-                  <button className="edit">
+                  <button className="edit shadow-md p-2">
                     <svg
                       fill="none"
                       viewBox="0 0 24 24"
@@ -100,7 +125,7 @@ export default function BookDetails() {
                   </button>
                 </Link>
                 <button
-                  className="deleteBook"
+                  className="deleteBook shadow-md p-2"
                   onClick={() => deleteBook(book?._id)}
                 >
                   <svg
@@ -122,7 +147,7 @@ export default function BookDetails() {
           </div>
           {token && (
            <div className="flex gap-2 items-center">
-             <div className="p-3 bg-purple-300 w-fit">
+             <div className="p-3 bg-purple-300 w-fit shadow-md">
               <AiFillHeart
               title='Wish list'
                 className={
@@ -133,11 +158,11 @@ export default function BookDetails() {
                 onClick={() => handleWishList(book?._id)}
               />
             </div>
-            <div className="p-3 bg-purple-300 w-fit">
+            <div className="p-3 bg-purple-300 w-fit shadow-md">
               <FiBookOpen
               title='Reading list'
                 className={
-                  wished
+                  readList
                     ? "text-2xl cursor-pointer text-blue-600"
                     : "text-2xl cursor-pointer text-black"
                 }

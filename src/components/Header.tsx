@@ -20,7 +20,7 @@ function Header() {
     <Link to="/" className="font-semibold cursor-pointer">
       <li>Home</li>
     </Link>
-    <Link to="/" className="font-semibold cursor-pointer" >
+    <Link to="/all-books" className="font-semibold cursor-pointer" >
       <li>All books</li>
     </Link>
     <Link to="/wish-list" className="cursor-pointer" >

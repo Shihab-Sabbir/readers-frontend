@@ -7,6 +7,8 @@ import SignUp from "../pages/SignUp";
 import SignIn from "../pages/SignIn";
 import BookDetails from "../pages/BookDetails";
 import AllBooks from "../pages/AllBooks";
+import WishList from "../pages/WishList";
+import ReadList from "../pages/ReadList";
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ export const router = createBrowserRouter([
       {
         path: "all-books",
         element: <AllBooks/>,
+      },
+      {
+        path: "wish-list",
+        element: <WishList/>,
+      },
+      {
+        path: "read-list",
+        element: <ReadList/>,
       },
       {
         path: "get-single-book/:id",
