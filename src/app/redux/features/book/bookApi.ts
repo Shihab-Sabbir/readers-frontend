@@ -17,6 +17,13 @@ export const bookApi = rootApi.injectEndpoints({
       }),
       invalidatesTags: ["Books"],
     }),
+    handleReadingList: builder.mutation({
+      query: (id) => ({
+        url: `/products/read-list/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Books"],
+    }),
     addBook: builder.mutation({
       query: (book) => ({
         url: "/products",
@@ -49,5 +56,6 @@ export const {
   useUpdateBookMutation,
   useDeleteBookMutation,
   useGetBookQuery,
-  useHandleWishListMutation
+  useHandleWishListMutation,
+  useHandleReadingListMutation
 } = bookApi;

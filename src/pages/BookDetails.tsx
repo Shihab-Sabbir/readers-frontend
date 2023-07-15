@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { IBook } from "../shared/types/book/type";
 import { useAppSelector } from "../app/redux/hooks/hooks";
 import { AiFillHeart } from "react-icons/ai";
+import { FiBookOpen } from "react-icons/fi";
 import { RootState } from "../shared/types/global/types";
 
 export default function BookDetails() {
@@ -39,8 +40,11 @@ export default function BookDetails() {
       if (isWished) {
         setWished(true);
       }
+      else{
+        setWished(false)
+      }
     }
-  }, [book, phoneNumber]);
+  }, [book, phoneNumber,isWishListSuccess]);
 
   useEffect(() => {
     if (isWishListSuccess) {
@@ -69,22 +73,10 @@ export default function BookDetails() {
             src={book?.image}
             alt="book"
           />
-          {token && (
-            <div className="absolute right-0 top-0 p-3 bg-white m-1">
-              <AiFillHeart
-                className={
-                  wished
-                    ? "text-xl cursor-pointer text-red-600"
-                    : "text-xl cursor-pointer"
-                }
-                onClick={() => handleWishList(book?._id)}
-              />
-            </div>
-          )}
         </div>
         <div className="flex-1 h-full pr-2 pt-2 flex flex-col">
+          <div className="flex items-center flex-row-reverse w-full justify-between">
           <div className="flex items-center justify-between">
-            <div></div>
             {phoneNumber == book?.addedBy && (
               <div className="text-gray-500 space-x-2">
                 <Link to={`/edit-book/${book?._id}`}>
@@ -125,7 +117,33 @@ export default function BookDetails() {
               </div>
             )}
           </div>
-
+          {token && (
+           <div className="flex gap-2 items-center">
+             <div className="p-3 bg-purple-300 w-fit">
+              <AiFillHeart
+              title='Wish list'
+                className={
+                  wished
+                    ? "text-2xl cursor-pointer text-red-600"
+                    : "text-2xl cursor-pointer text-black"
+                }
+                onClick={() => handleWishList(book?._id)}
+              />
+            </div>
+            <div className="p-3 bg-purple-300 w-fit">
+              <FiBookOpen
+              title='Reading list'
+                className={
+                  wished
+                    ? "text-2xl cursor-pointer text-red-600"
+                    : "text-2xl cursor-pointer text-black"
+                }
+                onClick={() => handleWishList(book?._id)}
+              />
+            </div>
+           </div>
+          )}
+          </div>
           <div className="space-y-2 mt-4 h-full">
             <h4 className="book-name">{book?.title}</h4>
             <p className="author">{book?.author}</p>
