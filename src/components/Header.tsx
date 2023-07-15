@@ -1,10 +1,14 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../asset/images/logo.png";
 import { setSearch } from "../app/redux/features/book/filterSlice";
+import { useAppDispatch, useAppSelector } from "../app/redux/hooks/hooks";
+import { RootState } from "../shared/types/global/types";
+import { logoutReducer } from "../app/redux/features/auth/authSlice";
+
 function Header() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const {token} = useAppSelector((state:RootState)=> state.auth)
   return (
     <header className="p-4 dark:bg-gray-800 dark:text-gray-100">
     <div className="container flex justify-between h-16 mx-auto">
@@ -18,6 +22,7 @@ function Header() {
     <Link to="/add-book" className="cursor-pointer" id="addBook">
       <li>Add Book</li>
     </Link>
+
   </ul>
       <div className="flex items-center md:space-x-4">
         <div className="relative">
@@ -37,9 +42,15 @@ function Header() {
           />
   
         </div>
-        <button className="submit hidden md:flex mb-5">
+       {!!token || <button className="submit hidden md:flex mb-5">
         <Link to="/auth/signin" >Log in</Link>
-        </button>
+        </button>}
+       {!!token && <button 
+       className="submit hidden md:flex mb-5"
+       onClick={()=>dispatch(logoutReducer())}
+       >
+       Log out
+        </button>}
       </div>
       <button title="Open menu" type="button" className="p-4 md:hidden">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 dark:text-gray-100">

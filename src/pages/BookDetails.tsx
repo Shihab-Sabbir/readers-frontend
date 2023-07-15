@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   useDeleteBookMutation,
   useGetBookQuery,
+  useHandleReadingListMutation,
   useHandleWishListMutation,
 } from "../app/redux/features/book/bookApi";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -22,6 +23,8 @@ export default function BookDetails() {
   });
   const [handleWishList, { isSuccess: isWishListSuccess }] =
     useHandleWishListMutation();
+  const [handleReadList, { isSuccess: isReadListSuccess }] =
+  useHandleReadingListMutation();
   const { phoneNumber, token } = useAppSelector(
     (state: RootState) => state.auth
   );
@@ -135,10 +138,10 @@ export default function BookDetails() {
               title='Reading list'
                 className={
                   wished
-                    ? "text-2xl cursor-pointer text-red-600"
+                    ? "text-2xl cursor-pointer text-blue-600"
                     : "text-2xl cursor-pointer text-black"
                 }
-                onClick={() => handleWishList(book?._id)}
+                onClick={() => handleReadList(book?._id)}
               />
             </div>
            </div>
