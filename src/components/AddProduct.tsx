@@ -80,7 +80,7 @@ function AddProduct() {
       book.image = image;
     }
   
-    update ? updateBook({ book, id: param?.id }) : addBook(book);
+    update ? updateBook({ book, id:id }) : addBook(book);
     form.reset();
   };
   
