@@ -20,7 +20,7 @@ export default function BookDetails() {
   const { phoneNumber, token } = useAppSelector(
     (state: RootState) => state.auth
   );
-  
+
   useEffect(() => {
     if (data?.data) {
       setBook(data.data);
@@ -46,7 +46,9 @@ export default function BookDetails() {
           />
           {token && (
             <div className="absolute right-0 top-0 p-3 bg-white m-1">
-              <AiFillHeart className="text-xl" />
+              <AiFillHeart className="text-xl cursor-pointer" 
+              
+              />
             </div>
           )}
         </div>

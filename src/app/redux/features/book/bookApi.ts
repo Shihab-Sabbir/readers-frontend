@@ -10,6 +10,13 @@ export const bookApi = rootApi.injectEndpoints({
       query: (id) => `/products/${id}`,
       providesTags: ["Books"],
     }),
+    handleWishList: builder.mutation({
+      query: (id) => ({
+        url: `/products/wish/${id}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Books"],
+    }),
     addBook: builder.mutation({
       query: (book) => ({
         url: "/products",
