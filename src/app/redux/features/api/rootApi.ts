@@ -10,7 +10,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5000/api/v1",
   prepareHeaders: (headers) => {
     const tokenString = localStorage.getItem("readers-current-user");
-    const token = tokenString ? JSON.parse(tokenString) : null;
+    const token = tokenString ? JSON.parse(tokenString).accessToken : null;
     headers.set("Authorization", `${token}`);
     return headers;
   },

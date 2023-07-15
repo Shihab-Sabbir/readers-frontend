@@ -13,10 +13,12 @@ const authSlice = createSlice({
       const { phoneNumber, accessToken } = action.payload;
       state.phoneNumber = phoneNumber;
       state.token = accessToken;
-      localStorage.setItem(
-        "readers-current-user",
-        JSON.stringify(accessToken)
-      );
+      const authInfo = localStorage.getItem("readers-current-user");
+      authInfo ||
+        localStorage.setItem(
+          "readers-current-user",
+          JSON.stringify({ accessToken, phoneNumber })
+        );
     },
     logoutReducer: (state) => {
       state.phoneNumber = undefined;
