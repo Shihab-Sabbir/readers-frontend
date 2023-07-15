@@ -1,3 +1,8 @@
+interface IReading {
+  phoneNumber: string;
+  status?: "reading" | "read soon" | "finished";
+}
+
 export interface IBook {
   _id?: string;
   title: string;
@@ -7,5 +12,5 @@ export interface IBook {
   image?: string;
   addedBy: string;
   wishedBy?: string[] | null;
-  readList?: string[] | null;
+  readList?: IReading[] | null;
 }

@@ -54,7 +54,7 @@ export default function BookDetails() {
     if (book && phoneNumber) {
       const readList = book?.readList;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const isListed = readList?.includes(phoneNumber!);
+      const isListed = readList?.find(r=>r.phoneNumber == phoneNumber);
       if (isListed) {
         setReadList(true);
       }
