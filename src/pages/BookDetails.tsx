@@ -3,6 +3,7 @@ import { useDeleteBookMutation, useGetBookQuery } from "../app/redux/features/bo
 import { Link, useNavigate, useParams } from "react-router-dom";
 import toast from 'react-hot-toast'
 import { IBook } from "../shared/types/book/type";
+import { useAppSelector } from "../app/redux/hooks/hooks";
 
 export default function BookDetails() {
   const [book, setBook] = useState<IBook|null>(null);
@@ -10,6 +11,10 @@ export default function BookDetails() {
   const { data } = useGetBookQuery(id, {
     skip: !id,
   });
+
+  const state = useAppSelector(state=>state.auth)
+  console.log(state)
+
   useEffect(() => {
     if (data?.data) {
       setBook(data.data);
@@ -25,14 +30,12 @@ export default function BookDetails() {
   }
 
   return (
-    <div>
-      <Link
-        to={`/get-single-book/${book?._id}`}
-        className="book-card"
-        key={book?._id}
+    <div className="mb-[100px] mx-auto">
+      <div
+        className="book-card w-[600px] mx-auto"
       >
         <img
-          className="h-[240px] w-[170px] object-cover"
+          className="h-[340px] w-[270px] object-cover"
           src={book?.image}
           alt="book"
         />
@@ -102,7 +105,7 @@ export default function BookDetails() {
                     <p className="price">BDT {book?.price}</p> */}
           </div>
         </div>
-      </Link>
+      </div>
     </div>
   );
 }

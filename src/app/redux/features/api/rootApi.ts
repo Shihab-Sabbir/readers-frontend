@@ -9,9 +9,8 @@ import { logoutReducer } from "../auth/authSlice";
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5000/api/v1",
   prepareHeaders: (headers) => {
-    const token = JSON.parse(
-      localStorage.getItem("readers-current-user") || ""
-    );
+    const tokenString = localStorage.getItem("readers-current-user");
+    const token = tokenString ? JSON.parse(tokenString) : null;
     headers.set("Authorization", `${token}`);
     return headers;
   },

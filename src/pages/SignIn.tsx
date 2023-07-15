@@ -1,40 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import toast from 'react-hot-toast'
+import toast from "react-hot-toast";
 import { useUserSignInMutation } from "../app/redux/features/auth/authApi";
+import { useAppDispatch } from "../app/redux/hooks/hooks";
+import { loginReducer } from "../app/redux/features/auth/authSlice";
 
 function SignIn() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [userSignIn, {data, error , isSuccess}] = useUserSignInMutation();
-
-  const handleSignIn = (e:React.FormEvent<HTMLFormElement>) => {
+  const [userSignIn, { data, error, isSuccess }] = useUserSignInMutation();
+  const dispatch = useAppDispatch();
+  const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = {
       phoneNumber,
-      password
-    }
-    userSignIn(data)
+      password,
+    };
+    userSignIn(data);
   };
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Successfully signin!', { id: 'signin' });
-      console.log('cookie : ', document.cookie);
-      localStorage.setItem('readers-current-user', JSON.stringify(data?.data?.accessToken));
-      navigate('/')
+      toast.success("Successfully signin!", { id: "signin" });
+      console.log(data?.data)
+      const user = data?.data;
+      dispatch(loginReducer(user));
+      navigate("/");
     }
-  }, [isSuccess, data, navigate]);
-  
+  }, [isSuccess, data, navigate, dispatch]);
+
   useEffect(() => {
     if (error) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const errorMessage = (error as any).data?.message || "An error occurred";
       toast.error(errorMessage, { id: "signin" });
     }
-  }, [error])
-  
+  }, [error]);
 
   return (
     <div className="py-6 2xl:px-6">
@@ -68,13 +70,17 @@ function SignIn() {
             <button type="submit" className="submit" id="submit">
               Sign In
             </button>
-            <p>No account ? please <Link to='/auth/signup' className="text-purple-500">Signup</Link></p>
+            <p>
+              No account ? please{" "}
+              <Link to="/auth/signup" className="text-purple-500">
+                Signup
+              </Link>
+            </p>
           </form>
         </div>
       </div>
     </div>
   );
 }
-
 
 export default SignIn;
