@@ -13,7 +13,7 @@ export const bookApi = rootApi.injectEndpoints({
     handleWishList: builder.mutation({
       query: (id) => ({
         url: `/products/wish/${id}`,
-        method: "POST",
+        method: "PATCH",
       }),
       invalidatesTags: ["Books"],
     }),
@@ -49,4 +49,5 @@ export const {
   useUpdateBookMutation,
   useDeleteBookMutation,
   useGetBookQuery,
+  useHandleWishListMutation
 } = bookApi;

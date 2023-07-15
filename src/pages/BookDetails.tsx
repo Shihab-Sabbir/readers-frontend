@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   useDeleteBookMutation,
   useGetBookQuery,
+  useHandleWishListMutation,
 } from "../app/redux/features/book/bookApi";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -12,11 +13,14 @@ import { RootState } from "../shared/types/global/types";
 
 export default function BookDetails() {
   const [book, setBook] = useState<IBook | null>(null);
+  const [wished, setWished] = useState(false);
+
   const { id } = useParams();
   const { data } = useGetBookQuery(id, {
     skip: !id,
   });
-
+  const [handleWishList, { isSuccess: isWishListSuccess }] =
+    useHandleWishListMutation();
   const { phoneNumber, token } = useAppSelector(
     (state: RootState) => state.auth
   );
@@ -26,6 +30,27 @@ export default function BookDetails() {
       setBook(data.data);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (book && phoneNumber) {
+      const wishedBy = book.wishedBy;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const isWished = wishedBy?.includes(phoneNumber!);
+      if (isWished) {
+        setWished(true);
+      }
+    }
+  }, [book, phoneNumber]);
+
+  useEffect(() => {
+    if (isWishListSuccess) {
+      if (wished) {
+        toast.success("Added in wished list", { id: "wishList" });
+      } else {
+        toast.success("Remove from wished list", { id: "wishList" });
+      }
+    }
+  }, [isWishListSuccess, wished]);
 
   const [deleteBook, { isSuccess }] = useDeleteBookMutation();
   const navigate = useNavigate();
@@ -46,8 +71,13 @@ export default function BookDetails() {
           />
           {token && (
             <div className="absolute right-0 top-0 p-3 bg-white m-1">
-              <AiFillHeart className="text-xl cursor-pointer" 
-              
+              <AiFillHeart
+                className={
+                  wished
+                    ? "text-xl cursor-pointer text-red-600"
+                    : "text-xl cursor-pointer"
+                }
+                onClick={() => handleWishList(book?._id)}
               />
             </div>
           )}
