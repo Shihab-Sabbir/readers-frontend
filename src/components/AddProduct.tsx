@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/redux/hooks/hooks";
 import { RootState } from "../shared/types/global/types";
 import { IBook } from "../shared/types/book/type";
-import { useAddBookMutation, useGetBooksQuery, useUpdateBookMutation } from "../app/redux/features/book/bookApi";
+import { useAddBookMutation, useGetBookQuery, useGetBooksQuery, useUpdateBookMutation } from "../app/redux/features/book/bookApi";
 import { removeUpdateData, setUpdateData } from "../app/redux/features/book/filterSlice";
 
 function AddProduct() {
@@ -18,15 +18,17 @@ function AddProduct() {
 
   const [updateBook, { isSuccess: isUpdateSuccess }] = useUpdateBookMutation();
 
-  const { data } = useGetBooksQuery(undefined);
-
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
-  const param = useParams();
+  const {id} = useParams();
 
   const location = useLocation();
+
+  const { data:updatableBook } = useGetBookQuery(id, {
+    skip: !id,
+  });
 
   useEffect(() => {
     if (location.pathname.match('/add-book')) {
@@ -36,17 +38,12 @@ function AddProduct() {
     }
   }, [dispatch, location])
 
-
   useEffect(() => {
-    if (param.id) {
-      const targetbook:IBook = data?.find((book:IBook) => book._id == param._id);
-      if (targetbook) {
-        dispatch(setUpdateData());
-        setUpdateBookInfo(targetbook as IBook);
-      }
+    if (updatableBook?.data) {
+      dispatch(setUpdateData());
+        setUpdateBookInfo(updatableBook.data as IBook);
     }
-  }, [param, data, dispatch]);
-
+  }, [dispatch, updatableBook]);
 
   useEffect(() => {
     if (isSuccess || isUpdateSuccess) {
@@ -54,6 +51,8 @@ function AddProduct() {
       navigate("/");
     }
   }, [dispatch, isSuccess, isUpdateSuccess, navigate]);
+
+  console.log({updateBookInfo})
 
   const handleAddProduct = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
