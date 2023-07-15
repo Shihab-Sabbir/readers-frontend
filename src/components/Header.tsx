@@ -9,18 +9,25 @@ import { logoutReducer } from "../app/redux/features/auth/authSlice";
 function Header() {
   const dispatch = useAppDispatch();
   const {token} = useAppSelector((state:RootState)=> state.auth)
+
   return (
     <header className="p-4 dark:bg-gray-800 dark:text-gray-100">
     <div className="container flex justify-between h-16 mx-auto">
-    <a rel="noopener noreferrer" href="#" aria-label="Back to homepage" className="flex items-center p-2">
+    <Link to='/' className="flex items-center p-2 min-w-[100px] min-h-full">
         <img src={logo} width="100px" className="object-contain" alt="" />
-      </a>
+      </Link>
     <ul className="hidden md:flex items-center space-x-6">
-    <Link to="/" className="font-semibold cursor-pointer" id="bookStore">
-      <li>Book Store</li>
+    <Link to="/" className="font-semibold cursor-pointer">
+      <li>Home</li>
     </Link>
-    <Link to="/add-book" className="cursor-pointer" id="addBook">
-      <li>Add Book</li>
+    <Link to="/" className="font-semibold cursor-pointer" >
+      <li>All books</li>
+    </Link>
+    <Link to="/wish-list" className="cursor-pointer" >
+      <li>Wish List</li>
+    </Link>
+    <Link to="/read-list" className="cursor-pointer" >
+      <li>Read List</li>
     </Link>
 
   </ul>

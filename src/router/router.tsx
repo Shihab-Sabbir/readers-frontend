@@ -6,6 +6,7 @@ import AddProduct from "../components/AddProduct";
 import SignUp from "../pages/SignUp";
 import SignIn from "../pages/SignIn";
 import BookDetails from "../pages/BookDetails";
+import AllBooks from "../pages/AllBooks";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
       {
         path: "edit-book/:id",
         element: <AddProduct/>,
+      },
+      {
+        path: "all-books",
+        element: <AllBooks/>,
       },
       {
         path: "get-single-book/:id",

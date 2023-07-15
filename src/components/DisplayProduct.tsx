@@ -5,9 +5,13 @@ import { setFeatured } from "../app/redux/features/book/filterSlice";
 import { useAppDispatch, useAppSelector } from "../app/redux/hooks/hooks";
 import { IBook } from "../shared/types/book/type";
 
-function DisplayProduct() {
+interface DisplayProductProps {
+  limit?: number;
+}
+
+function DisplayProduct({ limit }: DisplayProductProps) {
   const dispatch = useAppDispatch();
-  const { data: books } = useGetBooksQuery(10);
+  const { data: books } = useGetBooksQuery(limit);
   const { featured } = useAppSelector((state) => state.filter);
 
   return (
@@ -16,22 +20,11 @@ function DisplayProduct() {
         <div className="flex items-center justify-between mb-12">
           <h4 className="mt-2 text-xl font-bold">Book List</h4>
           <div className="flex items-center space-x-4">
-            <button
-              className={`filter-btn ${featured || "active-filter"}`}
-              onClick={() =>
-                dispatch(setFeatured(false))
-              }
-            >
-              All
-            </button>
-            <button
-              className={`filter-btn ${featured && "active-filter"}`}
-              onClick={() =>
-                dispatch(setFeatured(true))
-              }
-            >
-              Featured
-            </button>
+           <button  className={`filter-btn active-filter`}>
+           <Link to='/add-book'>
+              Add Book
+            </Link>
+           </button>
           </div>
         </div>
         {books?.data?.length ? (

@@ -1,10 +1,10 @@
-import React from 'react'
-import DisplayProduct from '../components/DisplayProduct'
+import React from 'react';
+import DisplayProduct from '../components/DisplayProduct';
 
 export default function Home() {
   return (
     <div>
-        <DisplayProduct/>
+      <DisplayProduct limit={10} />
     </div>
-  )
+  );
 }
