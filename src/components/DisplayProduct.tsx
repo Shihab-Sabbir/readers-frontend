@@ -12,9 +12,9 @@ interface DisplayProductProps {
 function DisplayProduct({ limit }: DisplayProductProps) {
   const location = useLocation()
   const {token} = useAppSelector((state:RootState)=>state.auth)
-
-  const { data: books } = useGetBooksQuery(limit);
-  
+const {search} = useAppSelector(state => state.filter)
+  const { data: books } = useGetBooksQuery({limit,search});
+console.log(search)
   return (
     <div className="py-12 px-6 2xl:px-6 container">
       <div className="order-2 xl:-order-1">

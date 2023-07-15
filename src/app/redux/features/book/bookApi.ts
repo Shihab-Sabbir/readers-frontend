@@ -3,8 +3,12 @@ import rootApi from "../api/rootApi";
 export const bookApi = rootApi.injectEndpoints({
   endpoints: (builder) => ({
     getBooks: builder.query({
-      query: (limit) => `/products?limit=${limit}`,
+      query: (data) =>
+        `/products?searchTerm=${data?.search || ""}&limit=${
+          data?.limit || null
+        }`,
       providesTags: ["Books"],
+      keepUnusedDataFor: 0,
     }),
     getBook: builder.query({
       query: (id) => `/products/${id}`,
@@ -28,7 +32,7 @@ export const bookApi = rootApi.injectEndpoints({
       query: ({ id, status }) => ({
         url: `/products/read-status/${id}`,
         method: "PATCH",
-        body: {status},
+        body: { status },
       }),
       invalidatesTags: ["Books"],
     }),

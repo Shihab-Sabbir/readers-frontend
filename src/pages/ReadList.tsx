@@ -26,7 +26,7 @@ export default function ReadList() {
     <div className="py-12 px-6 2xl:px-6 container">
       <div className="order-2 xl:-order-1">
         <div className="flex items-center justify-between mb-12">
-          <h4 className="mt-2 text-xl font-bold">Wished Books List</h4>
+          <h4 className="mt-2 text-xl font-bold">Reading List</h4>
         </div>
         {readingList?.length ? (
           <div className="space-y-6 md:space-y-0 md:grid grid-cols-1 lg:grid-cols-3 gap-6">
