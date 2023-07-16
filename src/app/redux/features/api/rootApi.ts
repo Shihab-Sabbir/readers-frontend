@@ -23,7 +23,7 @@ const baseQueryWithAuthHandling = async (
 ) => {
   const result = await baseQuery(args, api, extraOptions);
   const status = result?.error?.status;
-  const message = result?.error?.data?.message;
+  const message = (result?.error?.data as { message?: string })?.message;
   if (status === 404 && message == "TokenExpiredError: jwt expired") {
     api.dispatch(logoutReducer());
   }
