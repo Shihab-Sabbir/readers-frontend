@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
   useGetBooksQuery,
+  useHandleReadingListMutation,
   useHandleReadingStatusMutation,
 } from "../app/redux/features/book/bookApi";
 import { useAppSelector } from "../app/redux/hooks/hooks";
 import { IBook } from "../shared/types/book/type";
 import Loading from "../components/Laoding";
+import { FiBookOpen } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 export default function ReadList() {
   const [readingList, setReadingList] = useState([]);
@@ -15,6 +18,8 @@ export default function ReadList() {
   const { search } = useAppSelector((state) => state.filter);
   const { data: books ,isLoading} = useGetBooksQuery({ search, genre, publicationDate });
   const [handleReadingStatus] = useHandleReadingStatusMutation();
+  const [handleReadList, { isSuccess: isReadListSuccess }] =
+  useHandleReadingListMutation();
 
   useEffect(() => {
     if (books?.data && phoneNumber) {
@@ -25,6 +30,10 @@ export default function ReadList() {
       setReadingList(readingLists);
     }
   }, [books, phoneNumber, setReadingList]);
+
+  useEffect(() => {
+    if(isReadListSuccess){toast.success("Remove from reading list", { id: "readlist" })}
+  }, [isReadListSuccess]);
 
   if(isLoading){
     return <Loading/>
@@ -60,7 +69,15 @@ export default function ReadList() {
                   alt="book"
                 />
                 <div className="flex-1 h-full pr-2 pt-2 flex flex-col">
-                  <div className="mt-4 w-fit text-sm">
+                <div className="flex flex-row-reverse w-full items-center justify-between">
+                <div className="p-3 bg-purple-100 w-fit shadow-md">
+                  <FiBookOpen
+                    title="Reading list"
+                    className="text-2xl cursor-pointer text-blue-600"
+                    onClick={() => handleReadList(book?._id)}
+                  />
+                </div>
+                  <div className="w-fit text-sm">
                     <select
                       className="px-2 border-purple-400 border py-2 rounded-md"
                       onChange={(e) =>
@@ -78,6 +95,7 @@ export default function ReadList() {
                       <option value="finished">Finish Reading</option>
                     </select>
                   </div>
+                </div>
                   <p className="text-xs py-2 capitalize">
                     Status:{" "}
                     {book?.readList?.[index]?.status || "Not selected yet!"}
