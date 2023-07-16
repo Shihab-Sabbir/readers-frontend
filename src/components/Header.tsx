@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import logo from "../asset/images/image.png";
+import { NavLink } from "react-router-dom";
 import { setSearch } from "../app/redux/features/book/filterSlice";
 import { useAppDispatch, useAppSelector } from "../app/redux/hooks/hooks";
 import { RootState } from "../shared/types/global/types";
 import { logoutReducer } from "../app/redux/features/auth/authSlice";
+import logo from "../asset/images/image.png";
 
 function Header() {
   const dispatch = useAppDispatch();
@@ -13,24 +13,55 @@ function Header() {
   return (
     <header className="p-4 dark:bg-gray-800 dark:text-gray-100 bg-[#928AEE] mb-2">
       <div className="container flex justify-between h-16 mx-auto">
-        <Link to="/" className="flex items-center p-2 min-w-[100px] min-h-full">
+        <NavLink
+          to="/"
+          className="flex items-center p-2 min-w-[100px] min-h-full"
+        >
           <img src={logo} width="100px" className="object-contain" alt="" />
-        </Link>
+        </NavLink>
         <ul className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="font-semibold cursor-pointer">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "font-semibold cursor-pointer active-link"
+                : "font-semibold cursor-pointer "
+            }
+          >
             <li>Home</li>
-          </Link>
-          <Link to="/all-books" className="font-semibold cursor-pointer">
+          </NavLink>
+          <NavLink
+            to="/all-books"
+            className={({ isActive }) =>
+              isActive
+                ? "font-semibold cursor-pointer active-link"
+                : "font-semibold cursor-pointer"
+            }
+          >
             <li>All books</li>
-          </Link>
+          </NavLink>
           {!!token && (
             <>
-              <Link to="/wish-list" className="cursor-pointer">
+              <NavLink
+                to="/wish-list"
+                className={({ isActive }) =>
+                  isActive
+                    ? "font-semibold cursor-pointer active-link"
+                    : "font-semibold cursor-pointer"
+                }
+              >
                 <li>Wish List</li>
-              </Link>
-              <Link to="/read-list" className="cursor-pointer">
+              </NavLink>
+              <NavLink
+                to="/read-list"
+                className={({ isActive }) =>
+                  isActive
+                    ? "font-semibold cursor-pointer active-link"
+                    : "font-semibold cursor-pointer"
+                }
+              >
                 <li>Read List</li>
-              </Link>
+              </NavLink>
             </>
           )}
         </ul>
@@ -61,7 +92,7 @@ function Header() {
           </div>
           {!!token || (
             <button className="submit hidden md:flex mb-5">
-              <Link to="/auth/signin">Log in</Link>
+              <NavLink to="/auth/signin">Log in</NavLink>
             </button>
           )}
           {!!token && (
