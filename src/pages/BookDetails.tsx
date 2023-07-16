@@ -113,7 +113,7 @@ export default function BookDetails() {
     return <Loading/>
   }
 
-  const handleDeleteBook = (bookId) => {
+  const handleDeleteBook = (bookId:string) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this book?");
     if (confirmDelete) {
       deleteBook(bookId);
