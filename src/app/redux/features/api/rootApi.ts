@@ -7,7 +7,7 @@ import {
 import { logoutReducer } from "../auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api/v1",
+  baseUrl: "https://readers-backend.vercel.app/api/v1",
   prepareHeaders: (headers) => {
     const tokenString = localStorage.getItem("readers-current-user");
     const token = tokenString ? JSON.parse(tokenString).accessToken : null;
