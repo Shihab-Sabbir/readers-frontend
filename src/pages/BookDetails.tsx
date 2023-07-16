@@ -188,24 +188,24 @@ export default function BookDetails() {
           </div>
         </div>
       </div>
-      <div className="lg:px-[100px] sm:px-[50px] mt-20">
+      <div className="lg:px-[100px] sm:px-[50px] mt-10">
         <div>
-          <p>Reviews</p>
-          {!!book?.review?.length || <p>No review yet !</p>}
+          <p className="font-bold text-lg pb-4">Reviews</p>
+          {!!book?.review?.length || <p className="py-2 mb-2">No review added yet !</p>}
          
           {!!book?.review?.length && (
             <div>
               {book?.review?.map((r:IReview) => (
-                <div key={r._id}>
+                <div key={r._id} className="shadow p-2 mb-2">
                   <p>{r.name}</p>
+                  <p className="text-xs">{r.date}</p>
                   <p>{r.body}</p>
-                  <p>{r.date}</p>
                 </div>
               ))}
             </div>
           )}
         </div>
-        <p>Add a review</p>
+        <p className="text-xs font-extrabold mb-5">Add a review</p>
         <div className="bg-white w-full h-fit shadow-lg p-2 pb-5 rounded-xl">
           <div>
             <label htmlFor="name" className="text-xs">
