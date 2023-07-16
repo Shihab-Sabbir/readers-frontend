@@ -10,12 +10,13 @@ import AllBooks from "../pages/AllBooks";
 import WishList from "../pages/WishList";
 import ReadList from "../pages/ReadList";
 import ProtectedRoute from "./protectedRoute";
+import ErrorPage from "../pages/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    errorElement: "",
+    errorElement: <ErrorPage/>,
     children: [
       {
         path: "/",
