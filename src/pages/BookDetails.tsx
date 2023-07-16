@@ -152,7 +152,7 @@ export default function BookDetails() {
                   </Link>
                   <button
                     className="deleteBook shadow-md p-2"
-                    onClick={() => handleDeleteBook(book?._id)}
+                    onClick={() => handleDeleteBook(book?._id as string)}
                   >
                     <svg
                       fill="none"
