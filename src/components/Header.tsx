@@ -11,7 +11,7 @@ function Header() {
   const { token } = useAppSelector((state: RootState) => state.auth);
 
   return (
-    <header className="p-4 dark:bg-gray-800 dark:text-gray-100">
+    <header className="p-4 dark:bg-gray-800 dark:text-gray-100 bg-purple-100">
       <div className="container flex justify-between h-16 mx-auto">
         <Link to="/" className="flex items-center p-2 min-w-[100px] min-h-full">
           <img src={logo} width="100px" className="object-contain" alt="" />

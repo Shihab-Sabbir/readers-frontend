@@ -26,7 +26,12 @@ function DisplayProduct({ limit }: DisplayProductProps) {
     <div className="py-12 px-6 2xl:px-6 container">
       <div className="order-2 xl:-order-1">
         <div className="flex items-center justify-between mb-12">
-          <h4 className="mt-2 text-xl font-bold">Book List</h4>
+          {location.pathname.includes("all-books") && (
+            <h4 className="mt-2 text-xl font-bold">All Book List</h4>
+          )}
+          {location.pathname.includes("all-books") || (
+            <h4 className="mt-2 text-xl font-bold">Top Books</h4>
+          )}
           <div className="flex items-center space-x-4">
             {location.pathname.includes("all-books") && !!token && (
               <button className={`filter-btn active-filter`}>

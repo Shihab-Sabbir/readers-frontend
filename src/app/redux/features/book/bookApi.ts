@@ -11,7 +11,7 @@ export const bookApi = rootApi.injectEndpoints({
         }
 
         if (data?.publicationDate) {
-          query += `&publicationDate=${data.publicationDate}`;
+          query += `&publicationYear=${data.publicationDate}`;
         }
 
         return query;

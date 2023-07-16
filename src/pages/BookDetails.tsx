@@ -101,7 +101,7 @@ export default function BookDetails() {
   console.log(book);
 
   return (
-    <div className="mb-[100px] mx-auto">
+    <div className="mb-[100px] mt-[50px] mx-auto">
       <div className="book-card w-[600px] mx-auto">
         <div className="relative">
           <img
@@ -155,24 +155,24 @@ export default function BookDetails() {
             </div>
             {token && (
               <div className="flex gap-2 items-center">
-                <div className="p-3 bg-purple-300 w-fit shadow-md">
+                <div className="p-3 bg-purple-100 w-fit shadow-md">
                   <AiFillHeart
                     title="Wish list"
                     className={
                       wished
                         ? "text-2xl cursor-pointer text-red-600"
-                        : "text-2xl cursor-pointer text-black"
+                        : "text-2xl cursor-pointer text-gray-500"
                     }
                     onClick={() => handleWishList(book?._id)}
                   />
                 </div>
-                <div className="p-3 bg-purple-300 w-fit shadow-md">
+                <div className="p-3 bg-purple-100 w-fit shadow-md">
                   <FiBookOpen
                     title="Reading list"
                     className={
                       readList
                         ? "text-2xl cursor-pointer text-blue-600"
-                        : "text-2xl cursor-pointer text-black"
+                        : "text-2xl cursor-pointer text-gray-500"
                     }
                     onClick={() => handleReadList(book?._id)}
                   />
