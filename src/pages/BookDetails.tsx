@@ -121,7 +121,7 @@ export default function BookDetails() {
   };
 
   return (
-    <div className="mb-[100px] mt-[50px] mx-auto px-2">
+    <div className="mb-[100px] mx-auto px-2">
       <div className="book-card ">
       <img
             className="md:h-[440px] w-[50%] object-cover"

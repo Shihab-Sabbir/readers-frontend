@@ -69,7 +69,7 @@ export default function ReadList() {
                   alt="book"
                 />
                 <div className="flex-1 h-full pr-2 pt-2 flex flex-col">
-                <div className="flex flex-row-reverse w-full items-center justify-between">
+                <div className="flex flex-row-reverse w-full items-center justify-between gap-2">
                 <div className="p-3 bg-purple-100 w-fit shadow-md">
                   <FiBookOpen
                     title="Reading list"
@@ -77,7 +77,7 @@ export default function ReadList() {
                     onClick={() => handleReadList(book?._id)}
                   />
                 </div>
-                  <div className="w-fit text-sm">
+                  <div className="w-fit text-xs">
                     <select
                       className="px-2 border-purple-400 border py-2 rounded-md"
                       onChange={(e) =>
