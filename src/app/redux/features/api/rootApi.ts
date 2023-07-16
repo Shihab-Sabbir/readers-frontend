@@ -5,7 +5,8 @@ import {
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
 import { logoutReducer } from "../auth/authSlice";
-
+//https://readers-backend.vercel.app/api/v1
+//http://localhost:5000/api/v1
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://readers-backend.vercel.app/api/v1",
   prepareHeaders: (headers) => {

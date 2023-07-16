@@ -12,6 +12,7 @@ import { IBook, IReview } from "../shared/types/book/type";
 import { useAppSelector } from "../app/redux/hooks/hooks";
 import { AiFillHeart } from "react-icons/ai";
 import { FiBookOpen } from "react-icons/fi";
+import { GoCodeReview } from "react-icons/go";
 import { RootState } from "../shared/types/global/types";
 import Loading from "../components/Laoding";
 
@@ -20,7 +21,6 @@ export default function BookDetails() {
   const [wished, setWished] = useState(false);
   const [readList, setReadList] = useState(false);
   const [review, setReview] = useState({
-    name: "",
     body: "",
     date: new Date().toISOString().slice(0, 10),
   });
@@ -75,7 +75,6 @@ export default function BookDetails() {
     if (isAddReviewSuccess) {
       toast.success("Review added !", { id: "review" });
       setReview({
-        name: "",
         body: "",
         date: new Date().toISOString().slice(0, 10),
       });
@@ -215,10 +214,13 @@ export default function BookDetails() {
                   key={r._id}
                   className="shadow-md p-3 px-5 rounded-xl mb-2 bg-white space-y-2 w-fit"
                 >
-                  <p className="text-sm">
-                    Reviewd by {r.name} on {r.date}
+                  <p className="text-xs font-bold">
+                    Reviewd by <span className="capitalize">{r.name}</span> on {r.date}
                   </p>
+                 <div className="flex gap-3 items-center">
+                 <GoCodeReview/>
                   <p>{r.body}</p>
+                 </div>
                 </div>
               ))}
             </div>
@@ -228,19 +230,6 @@ export default function BookDetails() {
           <>
             <p className="text-xs font-extrabold my-5 mt-8">Add a review</p>
             <div className="bg-white w-fit min-w-[400px] h-fit shadow-lg p-2 pb-5 rounded-xl">
-              <div>
-                <label htmlFor="name" className="text-xs">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  value={review.name}
-                  className="pl-2"
-                  onChange={(e) =>
-                    setReview({ ...review, name: e.target.value })
-                  }
-                />
-              </div>
               <div className="flex flex-col mt-2">
                 <label htmlFor="body" className="text-xs">
                   Review
