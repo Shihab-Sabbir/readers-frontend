@@ -3,10 +3,19 @@ import rootApi from "../api/rootApi";
 export const bookApi = rootApi.injectEndpoints({
   endpoints: (builder) => ({
     getBooks: builder.query({
-      query: (data) =>
-        `/products?searchTerm=${data?.search || ""}&limit=${
-          data?.limit || null
-        }`,
+      query: (data) => {
+        let query = `/products?searchTerm=${data?.search}&limit=${data?.limit}`;
+
+        if (data?.genre) {
+          query += `&genre=${data.genre}`;
+        }
+
+        if (data?.publicationDate) {
+          query += `&publicationDate=${data.publicationDate}`;
+        }
+
+        return query;
+      },
       providesTags: ["Books"],
       keepUnusedDataFor: 0,
     }),
@@ -25,6 +34,14 @@ export const bookApi = rootApi.injectEndpoints({
       query: (id) => ({
         url: `/products/read-list/${id}`,
         method: "PATCH",
+      }),
+      invalidatesTags: ["Books"],
+    }),
+    handleReview: builder.mutation({
+      query: ({ id, review }) => ({
+        url: `/products/review/${id}`,
+        method: "PATCH",
+        body: { review },
       }),
       invalidatesTags: ["Books"],
     }),
@@ -71,4 +88,5 @@ export const {
   useHandleWishListMutation,
   useHandleReadingListMutation,
   useHandleReadingStatusMutation,
+  useHandleReviewMutation,
 } = bookApi;

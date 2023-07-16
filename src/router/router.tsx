@@ -9,47 +9,57 @@ import BookDetails from "../pages/BookDetails";
 import AllBooks from "../pages/AllBooks";
 import WishList from "../pages/WishList";
 import ReadList from "../pages/ReadList";
+import ProtectedRoute from "./protectedRoute";
 
 export const router = createBrowserRouter([
   {
-    path: "/", element: <Layout/>,
+    path: "/",
+    element: <Layout />,
     errorElement: "",
     children: [
       {
         path: "/",
-        element: <Home/>,
+        element: <Home />,
       },
       {
         path: "add-book",
-        element: <AddProduct/>,
+        element: <AddProduct />,
       },
       {
         path: "edit-book/:id",
-        element: <AddProduct/>,
+        element: <AddProduct />,
       },
       {
         path: "all-books",
-        element: <AllBooks/>,
+        element: <AllBooks />,
       },
       {
         path: "wish-list",
-        element: <WishList/>,
+        element: (
+          <ProtectedRoute>
+            <WishList />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "read-list",
-        element: <ReadList/>,
+        element: (
+          <ProtectedRoute>
+            <ReadList />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "get-single-book/:id",
-        element: <BookDetails/>,
+        element: <BookDetails />,
       },
       {
         path: "auth/signin",
-        element: <SignIn/>,
+        element: <SignIn />,
       },
       {
         path: "auth/signup",
-        element: <SignUp/>,
+        element: <SignUp />,
       },
     ],
   },

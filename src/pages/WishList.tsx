@@ -6,8 +6,9 @@ import { IBook } from "../shared/types/book/type";
 
 export default function WishList() {
   const [wishedBook, setWishedBook] = useState([]);
-  const { data: books } = useGetBooksQuery(undefined);
   const { phoneNumber } = useAppSelector((state) => state.auth);
+  const { search } = useAppSelector((state) => state.filter);
+  const { data: books } = useGetBooksQuery({search});
 
   useEffect(() => {
     if (books?.data && phoneNumber) {
@@ -45,6 +46,8 @@ export default function WishList() {
                   <div className="space-y-2 mt-4 h-full">
                     <h4 className="book-name">{book.title}</h4>
                     <p className="author">{book.author}</p>
+                    <p className="author">{book.genre}</p>
+                    <p className="author">{book.publicationDate}</p>
                   </div>
                 </div>
               </Link>
