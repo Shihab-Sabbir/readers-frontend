@@ -71,6 +71,17 @@ export default function BookDetails() {
   }, [book, phoneNumber, isReadListSuccess]);
 
   useEffect(() => {
+    if (isAddReviewSuccess) {
+      toast.success("Review added !", { id: "review" });
+      setReview({
+        name: "",
+        body: "",
+        date: new Date().toISOString().slice(0, 10),
+      });
+    }
+  }, [isAddReviewSuccess]);
+
+  useEffect(() => {
     if (isWishListSuccess) {
       if (wished) {
         toast.success("Added in wished list", { id: "wishList" });
@@ -101,15 +112,13 @@ export default function BookDetails() {
   console.log(book);
 
   return (
-    <div className="mb-[100px] mt-[50px] mx-auto">
-      <div className="book-card w-[600px] mx-auto">
-        <div className="relative">
-          <img
-            className="h-[340px] w-[270px] object-cover"
+    <div className="mb-[100px] mt-[50px] mx-auto px-2">
+      <div className="book-card ">
+      <img
+            className="md:h-[440px] w-[50%] object-cover"
             src={book?.image}
             alt="book"
           />
-        </div>
         <div className="flex-1 h-full pr-2 pt-2 flex flex-col">
           <div className="flex items-center flex-row-reverse w-full justify-between">
             <div className="flex items-center justify-between">
@@ -188,61 +197,83 @@ export default function BookDetails() {
           </div>
         </div>
       </div>
-      <div className="lg:px-[100px] sm:px-[50px] mt-10">
+      <div className="lg:px-[50px] sm:px-[20px] mt-10">
         <div>
           <p className="font-bold text-lg pb-4">Reviews</p>
-          {!!book?.review?.length || <p className="py-2 mb-2">No review added yet !</p>}
-         
+          {!!book?.review?.length || (
+            <p className="py-2 mb-2 text-sm">No review added yet !</p>
+          )}
+
           {!!book?.review?.length && (
             <div>
-              {book?.review?.map((r:IReview) => (
-                <div key={r._id} className="shadow p-2 mb-2">
-                  <p>{r.name}</p>
-                  <p className="text-xs">{r.date}</p>
+              {book?.review?.map((r: IReview) => (
+                <div
+                  key={r._id}
+                  className="shadow-md p-3 px-5 rounded-xl mb-2 bg-white space-y-2 w-fit"
+                >
+                  <p className="text-sm">
+                    Reviewd by {r.name} on {r.date}
+                  </p>
                   <p>{r.body}</p>
                 </div>
               ))}
             </div>
           )}
         </div>
-        <p className="text-xs font-extrabold mb-5">Add a review</p>
-        <div className="bg-white w-full h-fit shadow-lg p-2 pb-5 rounded-xl">
-          <div>
-            <label htmlFor="name" className="text-xs">
-              Name
-            </label>
-            <input
-              type="text"
-              value={review.name}
-              className="pl-2"
-              onChange={(e) => setReview({ ...review, name: e.target.value })}
-            />
-          </div>
-          <div>
-            <label htmlFor="body" className="text-xs">
-              Review
-            </label>
-            <input
-              type="text"
-              value={review.body}
-              className="pl-2"
-              onChange={(e) => setReview({ ...review, body: e.target.value })}
-            />
-          </div>
-          <button
-            type="submit"
-            className="submit"
-            id="submit"
-            onClick={() => {
-              handleReview({
-                review: review,
-                id: book?._id,
-              });
-            }}
-          >
-            Submit
-          </button>
-        </div>
+        {!!token && (
+          <>
+            <p className="text-xs font-extrabold my-5 mt-8">Add a review</p>
+            <div className="bg-white w-fit min-w-[400px] h-fit shadow-lg p-2 pb-5 rounded-xl">
+              <div>
+                <label htmlFor="name" className="text-xs">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  value={review.name}
+                  className="pl-2"
+                  onChange={(e) =>
+                    setReview({ ...review, name: e.target.value })
+                  }
+                />
+              </div>
+              <div className="flex flex-col mt-2">
+                <label htmlFor="body" className="text-xs">
+                  Review
+                </label>
+                <textarea
+                  value={review.body}
+                  className="p-2 h-[90px] border rounded-xl mt-1"
+                  onChange={(e) =>
+                    setReview({ ...review, body: e.target.value })
+                  }
+                />
+              </div>
+              <button
+                type="submit"
+                className="submit"
+                id="submit"
+                onClick={() => {
+                  handleReview({
+                    review: review,
+                    id: book?._id,
+                  });
+                }}
+              >
+                Submit
+              </button>
+            </div>
+          </>
+        )}
+        {!!token || (
+          <span className="text-sm">
+            Please{" "}
+            <Link to="/auth/signin" className="text-purple-500 font-semibold">
+              sign in
+            </Link>{" "}
+            to add a review !
+          </span>
+        )}
       </div>
     </div>
   );

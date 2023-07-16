@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/redux/hooks/hooks";
 import { RootState } from "../shared/types/global/types";
 import { IBook } from "../shared/types/book/type";
+import toast from "react-hot-toast";
 import {
   useAddBookMutation,
   useGetBookQuery,
@@ -13,8 +14,8 @@ import {
   setUpdateData,
 } from "../app/redux/features/book/filterSlice";
 
+
 function AddProduct() {
-  const [isFeatured, setIsFeatured] = useState(false);
   const [updateBookInfo, setUpdateBookInfo] = useState<IBook | null>(null);
 
   const { update } = useAppSelector((state: RootState) => state.filter);
@@ -39,7 +40,6 @@ function AddProduct() {
     if (location.pathname.match("/add-book")) {
       dispatch(removeUpdateData());
       setUpdateBookInfo(null);
-      setIsFeatured(false);
     }
   }, [dispatch, location]);
 
@@ -52,17 +52,16 @@ function AddProduct() {
 
   useEffect(() => {
     if (isSuccess || isUpdateSuccess) {
+      toast.success(`Successfully ${isSuccess ? 'added' : 'updated'}`);
       dispatch(removeUpdateData());
       navigate("/");
     }
   }, [dispatch, isSuccess, isUpdateSuccess, navigate]);
-
-  console.log({ updateBookInfo });
-
+  
   const handleAddProduct = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
-    const title = form.title.value.trim();
+    const title = form.titles.value.trim();
     const author = form.author.value.trim();
     const image = form.image.value.trim();
     const publicationDate = form.publicationDate.value.trim();
@@ -98,13 +97,13 @@ function AddProduct() {
           </h4>
           <form className="book-form space-y-2" onSubmit={handleAddProduct}>
             <div className="space-y-2">
-              <label htmlFor="title">Book Name</label>
+              <label htmlFor="titles">Book Name</label>
               <input
                 required
                 defaultValue={updateBookInfo?.title}
                 className="text-input"
                 type="text"
-                name="title"
+                name="titles"
               />
             </div>
             <div className="space-y-2">
@@ -151,22 +150,6 @@ function AddProduct() {
                 name="image"
               />
             </div>
-
-            <div className="flex items-center">
-              <input
-                id="featured"
-                type="checkbox"
-                checked={isFeatured}
-                name="featured"
-                className="w-4 h-4"
-                onChange={() => setIsFeatured((prevState) => !prevState)}
-              />
-              <label htmlFor="featured" className="ml-2 text-sm">
-                {" "}
-                This is a featured book
-              </label>
-            </div>
-
             <button type="submit" className="submit" id="submit">
               {update ? "Update Book" : "Add Book"}
             </button>

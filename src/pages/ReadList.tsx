@@ -8,9 +8,11 @@ import { IBook } from "../shared/types/book/type";
 
 export default function ReadList() {
   const [readingList, setReadingList] = useState([]);
+  const [genre, setGenre] = useState("");
+  const [publicationDate, setPublicationDate] = useState("");
   const { phoneNumber } = useAppSelector((state) => state.auth);
   const { search } = useAppSelector((state) => state.filter);
-  const { data: books } = useGetBooksQuery({search});
+  const { data: books } = useGetBooksQuery({ search, genre, publicationDate });
   const [handleReadingStatus] = useHandleReadingStatusMutation();
 
   useEffect(() => {
@@ -28,6 +30,20 @@ export default function ReadList() {
       <div className="order-2 xl:-order-1">
         <div className="flex items-center justify-between mb-12">
           <h4 className="mt-2 text-xl font-bold">Reading List</h4>
+          <div className="flex gap-2 bg-white p-2 shadow-lg rounded-xl">
+            <input
+              onChange={(e) => setGenre(e.target.value)}
+              type="text"
+              className="placeholder:text-xs text-xs pl-2"
+              placeholder="Filter by Genre"
+            />
+            <input
+              onChange={(e) => setPublicationDate(e.target.value)}
+              type="text"
+              className="placeholder:text-xs text-xs pl-2"
+              placeholder="Filter by Publishing Year"
+            />
+          </div>
         </div>
         {readingList?.length ? (
           <div className="space-y-6 md:space-y-0 md:grid grid-cols-1 lg:grid-cols-3 gap-6">

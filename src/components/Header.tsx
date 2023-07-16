@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../asset/images/logo.png";
+import logo from "../asset/images/image.png";
 import { setSearch } from "../app/redux/features/book/filterSlice";
 import { useAppDispatch, useAppSelector } from "../app/redux/hooks/hooks";
 import { RootState } from "../shared/types/global/types";
@@ -11,7 +11,7 @@ function Header() {
   const { token } = useAppSelector((state: RootState) => state.auth);
 
   return (
-    <header className="p-4 dark:bg-gray-800 dark:text-gray-100 bg-purple-100">
+    <header className="p-4 dark:bg-gray-800 dark:text-gray-100 bg-[#928AEE] mb-2">
       <div className="container flex justify-between h-16 mx-auto">
         <Link to="/" className="flex items-center p-2 min-w-[100px] min-h-full">
           <img src={logo} width="100px" className="object-contain" alt="" />

@@ -34,12 +34,11 @@ function DisplayProduct({ limit }: DisplayProductProps) {
           )}
           <div className="flex items-center space-x-4">
             {location.pathname.includes("all-books") && !!token && (
-              <button className={`filter-btn active-filter`}>
+              <button className={`filter-btn active-filter shadow-xl`}>
                 <Link to="/add-book">Add Book</Link>
               </button>
             )}
-            <div>
-              <div className="flex gap-2">
+            <div className="flex gap-2 bg-white p-2 shadow-lg rounded-xl">
                 <input
                   onChange={(e) => setGenre(e.target.value)}
                   type="text"
@@ -53,7 +52,6 @@ function DisplayProduct({ limit }: DisplayProductProps) {
                   placeholder="Filter by Publishing Year"
                 />
               </div>
-            </div>
           </div>
         </div>
         {books?.data?.length ? (
