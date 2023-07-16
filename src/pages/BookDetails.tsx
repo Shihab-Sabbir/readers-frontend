@@ -13,6 +13,7 @@ import { useAppSelector } from "../app/redux/hooks/hooks";
 import { AiFillHeart } from "react-icons/ai";
 import { FiBookOpen } from "react-icons/fi";
 import { RootState } from "../shared/types/global/types";
+import Loading from "../components/Laoding";
 
 export default function BookDetails() {
   const [book, setBook] = useState<IBook | null>(null);
@@ -25,7 +26,7 @@ export default function BookDetails() {
   });
 
   const { id } = useParams();
-  const { data } = useGetBookQuery(id, {
+  const { data ,isLoading} = useGetBookQuery(id, {
     skip: !id,
   });
   const [handleWishList, { isSuccess: isWishListSuccess }] =
@@ -109,7 +110,10 @@ export default function BookDetails() {
     navigate("/");
   }
 
-  console.log(book);
+  if(isLoading){
+    return <Loading/>
+  }
+
 
   return (
     <div className="mb-[100px] mt-[50px] mx-auto px-2">
@@ -190,10 +194,10 @@ export default function BookDetails() {
             )}
           </div>
           <div className="space-y-2 mt-4 h-full">
-            <h4 className="book-name">{book?.title}</h4>
-            <p className="author">{book?.author}</p>
-            <p className="author">{book?.genre}</p>
-            <p className="author">{book?.publicationDate}</p>
+            <h4 className="book-name text-xl">{book?.title}</h4>
+            <p className="author text-lg">{book?.author}</p>
+            <p className="author text-lg">{book?.genre}</p>
+            <p className="author text-lg">{book?.publicationDate}</p>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import {
 } from "../app/redux/features/book/bookApi";
 import { useAppSelector } from "../app/redux/hooks/hooks";
 import { IBook } from "../shared/types/book/type";
+import Loading from "../components/Laoding";
 
 export default function ReadList() {
   const [readingList, setReadingList] = useState([]);
@@ -12,7 +13,7 @@ export default function ReadList() {
   const [publicationDate, setPublicationDate] = useState("");
   const { phoneNumber } = useAppSelector((state) => state.auth);
   const { search } = useAppSelector((state) => state.filter);
-  const { data: books } = useGetBooksQuery({ search, genre, publicationDate });
+  const { data: books ,isLoading} = useGetBooksQuery({ search, genre, publicationDate });
   const [handleReadingStatus] = useHandleReadingStatusMutation();
 
   useEffect(() => {
@@ -24,6 +25,10 @@ export default function ReadList() {
       setReadingList(readingLists);
     }
   }, [books, phoneNumber, setReadingList]);
+
+  if(isLoading){
+    return <Loading/>
+  }
 
   return (
     <div className="py-12 px-6 2xl:px-6 container">

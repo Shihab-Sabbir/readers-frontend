@@ -4,6 +4,7 @@ import { useGetBooksQuery } from "../app/redux/features/book/bookApi";
 import { IBook } from "../shared/types/book/type";
 import { useAppSelector } from "../app/redux/hooks/hooks";
 import { RootState } from "../shared/types/global/types";
+import Loading from "./Laoding";
 
 interface DisplayProductProps {
   limit?: number;
@@ -15,12 +16,17 @@ function DisplayProduct({ limit }: DisplayProductProps) {
   const [publicationDate, setPublicationDate] = useState("");
   const { token } = useAppSelector((state: RootState) => state.auth);
   const { search } = useAppSelector((state) => state.filter);
-  const { data: books } = useGetBooksQuery({
+  const { data: books ,isLoading} = useGetBooksQuery({
     limit,
     search,
     genre,
     publicationDate,
   });
+
+
+  if(isLoading){
+    return <Loading/>
+  }
 
   return (
     <div className="py-12 px-6 2xl:px-6 container">
