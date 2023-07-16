@@ -113,6 +113,12 @@ export default function BookDetails() {
     return <Loading/>
   }
 
+  const handleDeleteBook = (bookId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this book?");
+    if (confirmDelete) {
+      deleteBook(bookId);
+    }
+  };
 
   return (
     <div className="mb-[100px] mt-[50px] mx-auto px-2">
@@ -146,7 +152,7 @@ export default function BookDetails() {
                   </Link>
                   <button
                     className="deleteBook shadow-md p-2"
-                    onClick={() => deleteBook(book?._id)}
+                    onClick={() => handleDeleteBook(book?._id)}
                   >
                     <svg
                       fill="none"
