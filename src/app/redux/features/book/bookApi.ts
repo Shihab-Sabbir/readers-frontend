@@ -4,7 +4,11 @@ export const bookApi = rootApi.injectEndpoints({
   endpoints: (builder) => ({
     getBooks: builder.query({
       query: (data) => {
-        let query = `/products?searchTerm=${data?.search}&limit=${data?.limit}`;
+        let query = `/products?searchTerm=${data?.search}`;
+
+        if (data?.limit) {
+          query += `&limit=${data.limit}`;
+        }
 
         if (data?.genre) {
           query += `&genre=${data.genre}`;

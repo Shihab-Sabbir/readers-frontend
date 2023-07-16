@@ -7,7 +7,7 @@ import { RootState } from "../shared/types/global/types";
 import Loading from "./Laoding";
 
 interface DisplayProductProps {
-  limit?: number;
+  limit?: number | undefined;
 }
 
 function DisplayProduct({ limit }: DisplayProductProps) {
